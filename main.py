@@ -16,7 +16,16 @@ def main():
     items = {}
 
     for order in orders:
-        customers[order["phone"]] = order["name"]
+        phone = order["phone"]
+
+        if (
+            isinstance(phone, str)
+            and len(phone) == 12
+            and phone[3] == "-"
+            and phone[7] == "-"
+            and phone.replace("-", "").isdigit()
+        ):
+            customers[phone] = order["name"]
 
         for item in order["items"]:
             item_name = item["name"]
