@@ -19,13 +19,31 @@ def process_orders(orders):
     customers = {}
     items = {}
 
+    if not isinstance(orders, list):
+        raise ValueError("Input JSON must contain a list of orders.")
+
     for order in orders:
-        phone = order["phone"]
+        if not isinstance(order, dict):
+            continue
 
-        if is_valid_phone(phone):
-            customers[phone] = order["name"]
+        if "phone" in order and "name" in order:
+            phone = order["phone"]
 
-        for item in order["items"]:
+            if is_valid_phone(phone):
+                customers[phone] = order["name"]
+
+        order_items = order.get("items", [])
+
+        if not isinstance(order_items, list):
+            continue
+
+        for item in order_items:
+            if not isinstance(item, dict):
+                continue
+
+            if "name" not in item or "price" not in item:
+                continue
+
             item_name = item["name"]
 
             if item_name not in items:
@@ -62,10 +80,18 @@ def main():
         print(f"Error: File '{args.filename}' is not valid JSON.")
         return
 
-    customers, items = process_orders(orders)
+    try:
+        customers, items = process_orders(orders)
+    except ValueError as error:
+        print(f"Error: {error}")
+        return
 
-    save_json("customers.json", customers)
-    save_json("items.json", items)
+    try:
+        save_json("customers.json", customers)
+        save_json("items.json", items)
+    except OSError as error:
+        print(f"Error saving output files: {error}")
+        return
 
     print("Successfully created customers.json and items.json.")
 
