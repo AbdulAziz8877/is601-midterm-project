@@ -9,8 +9,15 @@ def main():
     parser.add_argument("filename", help="Input JSON file")
     args = parser.parse_args()
 
-    with open(args.filename, "r", encoding="utf-8") as file:
-        orders = json.load(file)
+    try:
+        with open(args.filename, "r", encoding="utf-8") as file:
+            orders = json.load(file)
+    except FileNotFoundError:
+        print(f"Error: File '{args.filename}' was not found.")
+        return
+    except json.JSONDecodeError:
+        print(f"Error: File '{args.filename}' is not valid JSON.")
+        return
 
     customers = {}
     items = {}
