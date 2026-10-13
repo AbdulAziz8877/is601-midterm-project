@@ -118,3 +118,26 @@ Through this project, I practiced reading JSON data in Python, working with dict
 ## 🎯 Conclusion
 
 This project demonstrates how Python can be used to process structured restaurant data and turn it into useful customer records and menu statistics. It also provides practice with file handling, data organization, and basic error handling.
+
+## 🧪 Automated Testing
+
+This project includes automated tests using Python's built-in `unittest` module. These tests help check that the main functions work correctly.
+
+The tests cover:
+
+- Valid and invalid phone numbers
+- Customer information processing
+- Menu item order counts
+- Invalid top-level input data
+
+### Run the Tests
+
+Open a terminal in the project directory and run:
+
+```bash
+python -m unittest -v
+```
+
+The test results show whether each test passes or fails. If all tests pass, the output ends with `OK`.
+
+No additional testing packages are required.
